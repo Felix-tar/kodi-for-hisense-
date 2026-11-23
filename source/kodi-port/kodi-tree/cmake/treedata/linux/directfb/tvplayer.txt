@@ -1,0 +1,1 @@
+xbmc/cores/TVPlayer cores/tvplayer

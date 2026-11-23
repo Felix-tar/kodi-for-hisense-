@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playercorefactory>
+  <players>
+    <!-- These are compiled-in as re-ordering them would break scripts
+    The following aliases may also be used:
+      audiodefaultplayer, videodefaultplayer, videodefaultVideoPlayer
+    <player name="VideoPlayer" audio="true" video="true" />
+    <player name="VideoPlayer" /> placeholder for MPlayer
+    <player name="PAPlayer" audio="true" />
+    -->
+    <!-- Hisense/VIDAA (directfb): the TV's built-in media player (hardware decoder, video plane,
+         the TV's picture processing). Kodi stays the UI on top; flex.js drives the player.
+         No rule selects it yet: "Play using... -> TVPlayer" only. -->
+    <player name="TVPlayer" type="TVPlayer" audio="false" video="true">
+      <fallback>true</fallback>                 <!-- refused/unsuitable -> VideoPlayer -->
+      <fallbackmaxwidth>1920</fallbackmaxwidth> <!-- wider: error message instead (E2) -->
+      <probestreams>true</probestreams>
+      <suspendae>true</suspendae>
+      <periodicresume>true</periodicresume>     <!-- E4: resume point every 5 min -->
+      <feederconnections>16</feederconnections>
+      <feedertimeout>3600</feedertimeout>       <!-- s without activity -->
+      <peeruid>2910</peeruid>                   <!-- uid of the TV player (P18); -1 = log only -->
+      <filecache>false</filecache>
+      <dvprofile5>false</dvprofile5>            <!-- true: DV profile 5 (no base layer) to the TV anyway (P14) -->
+      <!-- audioindex: how Kodi counts the track number for the TV (setAudioTrack(n)); still open (P3).
+           supported (default): n-th track the TV can play, TrueHD/MLP/FLAC/Opus/Vorbis are skipped
+             (owner's test, Matrix file: eng AC3, TrueHD, eng AC3, deu AC3, spa AC3 -> 3 = Spanish).
+           file: n-th audio track of the file (synthetic test file: 3 = the TrueHD track).
+           Wrong language on the TV? Set "file" in this file (/APPS/kodi/share/kodi/system/); a
+           <player name="TVPlayer"> in userdata would become a second player "TVPlayer1".
+           kodi.log lists "audio file -> TV index" for every film. -->
+      <audioindex>supported</audioindex>
+    </player>
+  </players>
+
+  <rules name="system rules">
+    <rule name="mms/udp" protocols="mms|mmsh|udp" player="VideoPlayer" />
+    <rule name="lastfm/shout" protocols="lastfm|shout" player="PAPlayer" />
+    <rule name="rtmp" protocols="rtmp" player="videodefaultplayer" />
+
+    <!-- VideoPlayer can play standard rtsp streams -->
+    <rule name="rtsp" protocols="rtsp" filetypes="!(rm|ra)"  player="PAPlayer" />
+
+    <!-- Internet streams -->
+    <rule name="streams" internetstream="true">
+      <rule name="aacp/sdp" mimetypes="audio/aacp|application/sdp" player="VideoPlayer" />
+      <rule name="mp2" mimetypes="application/octet-stream" filetypes="mp2" player="PAPlayer" />
+    </rule>
+
+    <!-- DVDs -->
+    <rule name="dvd" dvd="true" player="VideoPlayer" />
+    <rule name="discimage" discimage="true" game="false" player="VideoPlayer" />
+
+    <!-- Only VideoPlayer can handle these normally -->
+    <rule name="sdp/asf" filetypes="sdp|asf" player="VideoPlayer" />
+
+    <!-- Pass these to VideoPlayer as we do not know if they are audio or video -->
+    <rule name="nsv" filetypes="nsv" player="VideoPlayer" />
+
+    <!-- pvr radio channels should be played by VideoPlayer because they need buffering -->
+    <rule name="radio" filetypes="pvr" filename=".*/radio/.*" player="VideoPlayer" />
+  </rules>
+</playercorefactory>

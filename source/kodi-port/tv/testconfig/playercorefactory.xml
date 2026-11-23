@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Testregel (TVPLAYER-DESIGN.md Schritt S8, "probehalber in special://profile"): Videodateien gehen
+     an den TVPlayer, alles andere bleibt bei den Systemregeln. Entfernen = Datei löschen, Kodi neu starten.
+     Kein <player>-Eintrag hier: der würde einen zweiten Player "TVPlayer1" anlegen. -->
+<playercorefactory>
+  <rules action="prepend">
+    <rule name="tvplayer-test" video="true" filetypes="mkv|mp4|m4v|ts|m2ts|mts|avi|mov|webm|mpg|mpeg" player="TVPlayer" />
+  </rules>
+</playercorefactory>

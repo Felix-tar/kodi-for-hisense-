@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+	<zorder>4</zorder>
+	<controls>
+		<control type="group">
+			<visible>!Window.IsActive(startup) + !Window.IsActive(GameVolume)</visible>
+			<centerleft>50%</centerleft>
+			<width>112</width>
+			<top>0</top>
+			<animation effect="fade" start="100" end="0" time="200" delay="1000" condition="Player.Muted">Conditional</animation>
+			<animation effect="fade" start="0" end="100" time="150">WindowOpen</animation>
+			<animation effect="fade" start="100" end="0" time="150">WindowClose</animation>
+			<control type="progress" id="29999">
+				<include>HiddenObject</include>
+				<info>Player.Volume</info>
+			</control>
+			<control type="image">
+				<left>12</left>
+				<top>5</top>
+				<width>88</width>
+				<height>88</height>
+				<texture>osd/buffer-bg.png</texture>
+				<visible>Window.IsActive(fullscreenvideo) | Window.IsActive(FullscreenGame) | Window.IsActive(slideshow)</visible>
+			</control>
+			<control type="image">
+				<left>22</left>
+				<top>15</top>
+				<width>68</width>
+				<height>68</height>
+				<texture>dialogs/extendedprogress/loading-back.png</texture>
+				<animation effect="fade" start="100" end="0" delay="300" time="500" tween="sine" condition="Player.Muted">Conditional</animation>
+			</control>
+			<control type="image">
+				<left>22</left>
+				<top>15</top>
+				<width>68</width>
+				<height>68</height>
+				<texture>$INFO[Control.GetLabel(29999),dialogs/volume/progress/p,.png]</texture>
+				<animation effect="fade" start="100" end="0" delay="300" time="500" tween="sine" condition="Player.Muted">Conditional</animation>
+				<visible>String.IsEmpty(Window(Home).Property(flexvol.text))</visible>
+			</control>
+			<!-- FLEX-TV (18.11.2026): the volume of the TV or the AV receiver (Kodi's own stays at 100 %),
+			     set by windowing/directfb/FlexVolumeBar.cpp: ring 0..100 and the number in it -->
+			<control type="image">
+				<left>22</left>
+				<top>15</top>
+				<width>68</width>
+				<height>68</height>
+				<texture>$INFO[Window(Home).Property(flexvol.pct),dialogs/volume/progress/p,.png]</texture>
+				<visible>!String.IsEmpty(Window(Home).Property(flexvol.text))</visible>
+			</control>
+			<control type="label">
+				<left>22</left>
+				<top>15</top>
+				<width>68</width>
+				<height>68</height>
+				<font>font12</font>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textcolor>white</textcolor>
+				<label>$INFO[Window(Home).Property(flexvol.text)]</label>
+				<visible>!String.IsEmpty(Window(Home).Property(flexvol.text)) + !String.IsEqual(Window(Home).Property(flexvol.text),Stumm)</visible>
+			</control>
+			<control type="image">
+				<left>36</left>
+				<top>29</top>
+				<width>40</width>
+				<height>40</height>
+				<texture colordiffuse="white">dialogs/volume/mute.png</texture>
+				<visible>String.IsEqual(Window(Home).Property(flexvol.text),Stumm)</visible>
+			</control>
+			<control type="image">
+				<left>36</left>
+				<top>29</top>
+				<width>40</width>
+				<height>40</height>
+				<texture colordiffuse="white">$VAR[VolumeIconVar]</texture>
+				<visible>String.IsEmpty(Window(Home).Property(flexvol.text))</visible>
+			</control>
+		</control>
+	</controls>
+</window>

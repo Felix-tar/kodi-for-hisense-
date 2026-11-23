@@ -1,0 +1,5 @@
+* text=auto
+*.sh text eol=lf
+*.png binary
+flex_es_helper text eol=lf
+prebuilt/flex* binary

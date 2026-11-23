@@ -1,0 +1,5 @@
+#!/bin/sh
+# Keep Kodi and vendor loader environments separate. FDs 3 and 4 remain open.
+exec env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin \
+  LD_LIBRARY_PATH="$LD_LIBRARY_PATH" LD_PRELOAD="$LD_PRELOAD" \
+  /APPS/kodi/lib/kodi/flex_es_helper.bin
