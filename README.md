@@ -27,6 +27,10 @@ The Hisense project documents the full silicon, player-profile and measurement i
 
 ## Source and build
 
+The [Hisense VIDAA U4 source branch](https://github.com/Felix-tar/xbmc/tree/hisense-vidaa-u4) contains the
+Kodi 21.3-Omega tree with the port applied. Its README explains how to use that
+branch with the build and packaging tools in this repository.
+
 1. [Follow the complete cross-build and install guide](docs/01-build.md). It lists the
    Linux host packages, exact Kodi revision and four firmware libraries to obtain
    privately from your matching development TV. It also documents rollback,
